@@ -1,6 +1,6 @@
 -- Tasks:
 
--- 1. Provide a SQL script that initializes the database for the Job Board scenario “CareerHub”.
+-- 1. Provide a SQL script that initializes the database for the Job Board scenario â€œCareerHubâ€.
 
 if not exists (select * from sys.databases where name = 'CareerHub')
 begin
@@ -71,29 +71,29 @@ end;
 -- Insert data into Jobs table
 insert into Companies (CompanyName, Location) 
 values 
-('TechCorp', 'San Francisco'),
-('InnovateX', 'New York'),
-('Green Energy Solutions', 'Seattle'),
-('FinTech Hub', 'Chicago'),
-('HealthCare Plus', 'Boston');
+('TechCorp', 'Mumbai'),
+('InnovateX', 'Bangalore'),
+('Green Energy Solutions', 'Chhenai'),
+('FinTech Hub', 'Hyderabad'),
+('HealthCare Plus', 'Pune');
 
 -- Insert data into Jobs table
 INSERT INTO Jobs (CompanyID, JobTitle, JobDescription, JobLocation, Salary, JobType, PostedDate) 
 VALUES
-(1, 'Software Engineer', 'Develop and maintain web applications.', 'San Francisco', 90000, 'Full-time', '2024-09-20'),
-(2, 'Data Analyst', 'Analyze business data to extract insights.', 'New York', 70000, 'Full-time', '2024-09-25'),
-(3, 'Project Manager', 'Manage team and project deliverables.', 'Seattle', 85000, 'Full-time', '2024-09-28'),
-(4, 'UX Designer', 'Design and improve user interfaces.', 'Chicago', 75000, 'Contract', '2024-10-01'),
-(5, 'DevOps Engineer', 'Build and maintain CI/CD pipelines.', 'Boston', 95000, 'Full-time', '2024-08-30');
+(1, 'Software Engineer', 'Develop and maintain web applications.', 'Mumbai', 90000, 'Full-time', '2024-09-20'),
+(2, 'Data Analyst', 'Analyze business data to extract insights.', 'Bangalore', 70000, 'Full-time', '2024-09-25'),
+(3, 'Project Manager', 'Manage team and project deliverables.', 'Chhenai', 85000, 'Full-time', '2024-09-28'),
+(4, 'UX Designer', 'Design and improve user interfaces.', 'Hyderabad', 75000, 'Contract', '2024-10-01'),
+(5, 'DevOps Engineer', 'Build and maintain CI/CD pipelines.', 'Pune', 95000, 'Full-time', '2024-08-30');
 
 -- Insert data into Applicants table
 INSERT INTO Applicants (FirstName, LastName, Email, Phone, Resume) 
 VALUES
-('John', 'Doe', 'john.doe@example.com', '1234567890', 'John Doe Resume'),
-('Jane', 'Smith', 'jane.smith@example.com', '2345678901', 'Jane Smith Resume'),
-('Michael', 'Brown', 'michael.brown@example.com', '3456789012', 'Michael Brown Resume'),
-('Emily', 'Davis', 'emily.davis@example.com', '4567890123', 'Emily Davis Resume'),
-('Daniel', 'Wilson', 'daniel.wilson@example.com', '5678901234', 'Daniel Wilson Resume');
+('Raj', 'Sharma', 'raj.sharma@gmail.com', '9834567890', 'Raj Sharma Resume'),
+('Amit', 'Patel', 'amit.patel@gmail.com', '7945678901', 'Amit Patel Resume'),
+('Reeta', 'Gupta', 'reeta.gupta@gmail.com', '9456789012', 'Reeta Gupta Resume'),
+('Emily', 'Davis', 'emily.davis@gmail.com', '7867890123', 'Emily Davis Resume'),
+('Alok', 'Kumar', 'alok.kumar@gmail.com', '6278901234', 'Alok Kumar Resume');
 
 -- Insert data into Applications table
 INSERT INTO Applications (JobID, ApplicantID, ApplicationDate, CoverLetter) 
@@ -217,16 +217,21 @@ from Companies c
 join Jobs j on c.CompanyID = j.CompanyID
 where j.Salary > (select AVG(Salary) from Jobs);
 
--- 17. Display a list of applicants with their names and a concatenated string of their city and state.
+-- 17. Display a list of applicants with their names and a concatenated string of their city and state.
+
 -- There are no city and state columns in Applicants table so we need to add the columns first.
 alter table Applicants
 add City varchar(100),
     State varchar(100);
 
+insert into Applicants (FirstName, LastName, Email, Phone, Resume, Experience, City, State) 
+values ('Aditi', 'Rai', 'aditi.rai@gmail.com', '9876543210', 'Resume text or file reference', 3, 'Chennai', 'Tamil Nadu');
+
 select a.FirstName, a.LastName, a.City + ', ' + a.State as Location
 from Applicants a;
 
--- 18. Retrieve a list of jobs with titles containing either 'Developer' or 'Engineer'.
+-- 18. Retrieve a list of jobs with titles containing either 'Developer' or 'Engineer'.
+
 select JobID, JobTitle, JobDescription, JobLocation, Salary, JobType, PostedDate
 from Jobs
 where JobTitle like '%Developer%' or JobTitle like '%Engineer%';
